@@ -1,6 +1,6 @@
 # Path: dockerfile
-# FROM fabric8/java-alpine-openjdk8-jdk:latest
-# FROM openjdk:8u302-jdk
+# Brief: This is a Dockerfile for building a container with the latest version of the OpenJDK 8 JDK.
+# To build this image, please read the run-with-docker.md file in the root of this repository.
 
 FROM ubuntu:16.04
 
@@ -9,38 +9,29 @@ LABEL maintainer="yangyf yangyf83@aliyun.com"
 # move deb file to /tmp
 COPY ./datalog/pa-datalog_0.5-1xenial.deb /tmp/pa-datalog_0.5-1xenial.deb
 
-# 构建 jdk 8 环境
-# change apt source and install python2, change pip source
+# if need change apt source
 # RUN sed -i "s@http://.*archive.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && sed -i "s@http://.*security.ubuntu.com@https://mirrors.tuna.tsinghua.edu.cn@g" /etc/apt/sources.list && 
 
-RUN apt-get update && apt-get install -y python-pip openjdk-8-jdk vim curl git &&  \
-    apt-get install -y libtcmalloc-minimal4 libgoogle-perftools4 protobuf-compiler libprotobuf-dev \
-    libprotobuf-java libboost-date-time1.58.0 libboost-filesystem1.58.0 libboost-iostreams1.58.0 \
-    libboost-program-options1.58.0 libboost-date-time1.58.0 libboost-system1.58.0 libboost-thread1.58.0 \
-    libcppunit-1.13-0v5 realpath libboost-regex1.58.0
+# install the packages
+RUN apt-get update && apt-get install -y python-pip openjdk-8-jdk vim curl git libtcmalloc-minimal4 \
+    libgoogle-perftools4 protobuf-compiler libprotobuf-dev libprotobuf-java libboost-date-time1.58.0  \
+    libboost-filesystem1.58.0 libboost-iostreams1.58.0 libboost-program-options1.58.0 libboost-date-time1.58.0  \
+    libboost-system1.58.0 libboost-thread1.58.0 libcppunit-1.13-0v5 realpath libboost-regex1.58.0
 # && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/ \simple 
 
+# from the deb install pa-datalog
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone && \
     dpkg -i /tmp/pa-datalog_0.5-1xenial.deb || apt-get install -y -f
 
+# write the shell script to bashrc
 RUN echo "source /opt/lb/pa-datalog/lb-env-bin.sh" >> ~/.bashrc
-# RUN source /opt/lb/pa-datalog/lb-env-bin.sh
 
-# add python2.7 to path
-#ENV PATH /usr/bin/python2.7:$PATH
-# set JAVA_HOME
-#ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-## set BASH_SOURCE
-#ENV BASH_SOURCE /root/.bashrc
-## set LOGICBLOX_HOME
-#ENV LOGICBLOX_HOME /opt/lb/pa-datalog/logicblox
-
-#ENV LC_ALL C.UTF-8
-# expose to port 2233
-#EXPOSE 2233 2233
+# expose to port 2333, used for IDEs to connect to the container
+#EXPOSE 2333 2333
 
 # mount this directory to the container
-VOLUME /tmp
+# when you run the container, you can use -v to mount the directory
+VOLUME /home/project
 
 #ENTRYPOINT source /opt/lb/pa-datalog/lb-env-bin.sh
 #ENTRYPOINT cd /home/project zipper
