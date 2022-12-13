@@ -16,8 +16,8 @@ COPY ./datalog/pa-datalog_0.5-1xenial.deb /tmp/pa-datalog_0.5-1xenial.deb
 RUN apt-get update && apt-get install -y python-pip openjdk-8-jdk vim curl git libtcmalloc-minimal4 \
     libgoogle-perftools4 protobuf-compiler libprotobuf-dev libprotobuf-java libboost-date-time1.58.0  \
     libboost-filesystem1.58.0 libboost-iostreams1.58.0 libboost-program-options1.58.0 libboost-date-time1.58.0  \
-    libboost-system1.58.0 libboost-thread1.58.0 libcppunit-1.13-0v5 realpath libboost-regex1.58.0
-# && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/ \simple 
+    libboost-system1.58.0 libboost-thread1.58.0 libcppunit-1.13-0v5 realpath libboost-regex1.58.0 bc 
+    # && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/ \simple 
 
 # from the deb install pa-datalog
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone && \

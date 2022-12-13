@@ -1,2 +1,8 @@
 .idea/*
 *build/*
+artifact/*
+datalog/*
+doop/cache/*
+doop/tmp/*
+zipper/build/*
+*/.idea/*

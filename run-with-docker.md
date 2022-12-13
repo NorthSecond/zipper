@@ -20,6 +20,7 @@ docker build -t zipper:0.1.5 .
 
 ```bash
 docker images
+
 ```
 
 其中，`zipper:0.1.5` 为构建的镜像名，可以根据需要自行修改。
@@ -29,15 +30,15 @@ docker images
 在构建好镜像后，可以通过以下命令运行容器：
 
 ```bash
-docker run -it --name zipper -v path/zipper:/home/project zipper:0.1.5
+docker run -it --name zipper -v path/zipper:/home/zipper zipper:0.1.5
 ```
 
-其中，`path/` 为本机上项目所在的地址，`zipper` 为容器名，可以根据需要自行修改。镜像中的 `/home/project` 为项目所在的目录，可以进行对应的运行。
+其中，`path/` 为本机上项目所在的地址，`zipper` 为容器名，可以根据需要自行修改。镜像中的 `/home/zipper` 为项目所在的目录，可以进行对应的运行。
 
 如果使用 [VSCode](https://code.visualstudio.com/) 连接容器进行开发，可以通过以下命令运行容器以此来同步 VS Code 对应的设置项：
 
 ```bash
-docker run --rm --name zipper -it -d -v ~/vscode-extension/.vscode-server:/root/.vscode-server -v path/zipper:/home/project zipper:0.1.5
+docker run --rm --name zipper -it -d -v ~/vscode-extension/.vscode-server:/root/.vscode-server -v path/zipper:/home/zipper zipper:0.1.5
 ```
 
 其中，`~/vscode-extension/.vscode-server` 为 VS Code 的配置文件所在的目录，`path/zipper` 为项目所在的目录，可以根据需要自行修改。这里为了便于连接操作，我们将容器设置为后台运行，可以通过以下命令查看容器：
@@ -48,3 +49,4 @@ docker ps
 
 ## 项目运行
 
+Docker 容器成功运行就代表我们环境的配置正确，可以在虚拟环境中尝试进行论文代码的复现了。
