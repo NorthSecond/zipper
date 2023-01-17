@@ -6,7 +6,7 @@
 
 ## PA-Datalog 下载
 
-由于协议限制，PA-Datalog的安装只能通过手动下载 `.deb` 安装包来进行。下载地址为：[http://snf-705535.vm.okeanos.grnet.gr/agreement.html](http://snf-705535.vm.okeanos.grnet.gr/agreement.html)，在同意对应的协议后选择 Ubuntu16.04LTS 对应的版本执行下载。下载完成后，将安装包 `./datalog/pa-datalog_0.5-1xenial.deb` 放在项目目录下的 `\datalog` 文件夹即可。
+由于协议限制，PA-Datalog的安装只能通过手动下载 `.deb` 安装包来进行。下载地址为：[http://snf-705535.vm.okeanos.grnet.gr/agreement.html](http://snf-705535.vm.okeanos.grnet.gr/agreement.html)，在同意对应的协议后选择 Ubuntu16.04LTS 对应的版本执行下载。下载完成后，将安装包 `./datalog/pa-datalog_0.5-1xenial.deb` 放在项目目录下的 `/datalog` 文件夹即可。
 
 ## Docker 镜像构建
 

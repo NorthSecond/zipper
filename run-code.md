@@ -8,9 +8,11 @@
 
 根据项目需要，我们构建了一个基于 Ubuntu16.04 的 Docker 镜像，完成了项目运行所需环境的自动配置，在安装有 Docker 的机器上，只需要 clone 本项目并下载 PA-Datalog Engine，就可以傻瓜式地完成项目所需运行环境的搭建。
 
+本项目的Docker file在[这里](https://github.com/NorthSecond/zipper/blob/master/dockerfile)下载，放置在项目根目录即可（本 Dockerfile 在服务本小组同学的同时，也很荣幸能够被某一其他小组的同学使用并亲测有效）。
+
 #### PA-Datalog 下载
 
-由于协议限制，PA-Datalog的安装只能通过手动下载 `.deb` 安装包来进行。下载地址为：[http://snf-705535.vm.okeanos.grnet.gr/agreement.html](http://snf-705535.vm.okeanos.grnet.gr/agreement.html)，在同意对应的协议后选择 Ubuntu16.04LTS 对应的版本执行下载。下载完成后，将安装包 `./datalog/pa-datalog_0.5-1xenial.deb` 放在项目目录下的 `\datalog` 文件夹即可。
+由于协议限制，PA-Datalog的安装只能通过手动下载 `.deb` 安装包来进行。下载地址为：[http://snf-705535.vm.okeanos.grnet.gr/agreement.html](http://snf-705535.vm.okeanos.grnet.gr/agreement.html)，在同意对应的协议后选择 Ubuntu16.04LTS 对应的版本执行下载。下载完成后，将安装包 `./datalog/pa-datalog_0.5-1xenial.deb` 放在项目目录下的 `/datalog` 文件夹即可。
 
 #### Docker 镜像构建
 
@@ -183,7 +185,7 @@ sudo source /opt/lb/pa-datalog/lb-env-bin.sh
 
 ### 进行传统指针分析
 
-这部分对应了论文的中的表1，表3和图12. 使用代码进行指针分析的命令一般形式如下：
+这部分对应了论文的中的**表1，表3和图12**. 使用代码进行指针分析的命令一般形式如下：
 
 ```bash
 ./run.py <ANALYSIS>|-all <PROGRAM> [-flow <FLOW>]
@@ -221,6 +223,8 @@ Direct, Direct+Wrapped, Direct+Unwrapped, Direct+Wrapped+Unwrapped
 
 ### 使用ZIPPER进行分析
 
+这部分对应了论文的中的**表2和图11**。
+
 运行 ZIPPER 的命令一般形式如下：
 
 
@@ -240,7 +244,7 @@ Direct, Direct+Wrapped, Direct+Unwrapped, Direct+Wrapped+Unwrapped
 
 需要注意的一点是ZIPPER需要预分析生成的指向信息。因此，当运行ZIPPER时，首先将自动调用上下文不敏感的指向分析，作为我们的论文第3节中的预分析。在预分析之后，指向信息将被ZIPPER转储以供以后使用。对于 `batik` 等大型程序，转储可能需要几分钟时间。下面是一个典型的运行输出结果截图：
 
-![image-20230117141248376](.\pics\run-code\image-20230117141248376.png)
+![image-20230117141248376](./pics/run-code/image-20230117141248376.png)
 
 在运行过程中，运行结果除了会打印在终端之外，所有的运行输出都会被保存在 `artifact/output-zipper` 目录中。在目录中，对于每个流模式和程序的组合，ZIPPER将生成一个文件 `<PROGRAM>-ZipperPrecisionCriticalMethod-<FLOW>.facts` ，保存ZIPPER分析得到的结果，这个结果也可以被 DOOP 用来执行 ZIPPER 引导的指针分析。
 
@@ -280,7 +284,7 @@ ci, 2type, zipper-2type, introA-2type, introB-2type.
 
 的结果截图，和表格中的数据基本一致。
 
-![image-20230117135412200](.\pics\run-code\image-20230117135412200.png)
+![image-20230117135412200](./pics/run-code/image-20230117135412200.png)
 
 ---
 
@@ -288,9 +292,9 @@ ci, 2type, zipper-2type, introA-2type, introB-2type.
 
 ### 实验环境
 
-我在[AutoDL](https://www.autodl.com)中租借使用了一个服务器进行代码的复现，详细配置如下：
+我在[AutoDL](https://www.autodl.com)中租借使用了一个服务器镜像进行代码的复现，详细配置如下：
 
-+ CPU：12vCPU Intel(R) Xeon(R) Platinum 8255C CPU @ 2.50GHz
++ CPU：12v CPU Intel(R) Xeon(R) Platinum 8255C CPU @ 2.50GHz（Docker）
 
 + 内存：43GB
 + 软件：Miniconda conda3（租借的服务器实例本质上也是一个虚拟化环境，Docker套Docker不太现实）
@@ -307,7 +311,7 @@ ci, 2type, zipper-2type, introA-2type, introB-2type.
 
 进行批量运行，运行截图在上述小节中已经贴出，而在本环境下，完整运行一次的时间大约是25小时。大致资源使用曲线如下图所示：
 
-![image-20230117135619117](.\pics\run-code\image-20230117135619117.png)
+![image-20230117135619117](./pics/run-code/image-20230117135619117.png)
 
 由于 DOOP 始终将所有结果都写入磁盘中，总共花费了我们大约 130GB 的磁盘空间。
 
@@ -323,7 +327,7 @@ ci, 2type, zipper-2type, introA-2type, introB-2type.
 
 进行复现，如下图所示：
 
-![image-20230117144109900](.\pics\run-code\image-20230117144109900.png)
+![image-20230117144109900](./pics/run-code/image-20230117144109900.png)
 
 可以看到我们的精度度量和论文一致，但是 157.96s 的时间相比论文中 82s 慢了不少。在实验过程中甚至有超过 3600s 上限被强制中断的指针分析过程。
 

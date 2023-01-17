@@ -4,7 +4,7 @@
 
 FROM ubuntu:16.04
 
-LABEL maintainer="yangyf yangyf83@aliyun.com"
+LABEL maintainer="yfyang yangyf83@aliyun.com"
 
 # move deb file to /tmp
 COPY ./datalog/pa-datalog_0.5-1xenial.deb /tmp/pa-datalog_0.5-1xenial.deb
